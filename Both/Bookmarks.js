@@ -46,7 +46,7 @@ function parseFirefoxBookmarks() {
 	sqlitepath = bmFirefoxPath[0];
 	var files = fs.readdirSync(sqlitepath);
 	if (files.length == 1) {
-		sqlitepath += "\\" + files[0] + bmFirefoxPath[2];
+		sqlitepath += "\\" + files[0] + "\\" + bmFirefoxPath[2];
 		console.log("Path: " + sqlitepath);
 	} else {
 		throw new Error("Multiple profiles for Firefox found");
