@@ -1,3 +1,5 @@
 git pull origin master
 pause
-node Both\Bookmarks.js
+cd Both
+node Bookmarks.js
+cd ..
