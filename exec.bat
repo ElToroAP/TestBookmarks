@@ -1,2 +1,2 @@
-cd Both
-node Bookmarks.js
+git pull origin master
+node Both\Bookmarks.js
