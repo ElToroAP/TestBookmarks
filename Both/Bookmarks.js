@@ -3,7 +3,10 @@
 
 // Requires
 const fs = require('fs');
-const sqlite3 = require('sqlite3').verbose();
+
+// Paths
+const bmChromePath = "C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks";
+const bmFirefoxPath = ["C:\\Users\\Admin\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\","*.default","places.sqlite"];
 
 var bm = {};
 
@@ -31,45 +34,68 @@ function parseChromeBookmarks(data) {
 		data["roots"]["bookmark_bar"], "");
 }
 function parseFirefoxBookmarks() {
-	// open the database
-	let db = new sqlite3.Database('./places.sqlite');
-	let sql = `SELECT b.id, b.parent, b.title as bTitle, p.title as pTitle, p.url
-	           FROM moz_bookmarks AS b LEFT JOIN moz_places AS p ON b.fk = p.id
-	           ORDER BY b.id`;
+	var tmp = {};
+	var record = {};
+	var sqlitepath = "";
 
-	db.all(sql, [], (err, rows) => {
-		var tmp = {};
-		tmp.TitlesByRow = {};
-		tmp.TitlesByName = {};
-		tmp.URLs = {};
-
-		if (err) throw err;
+	tmp.TitlesByRow = {};
+	tmp.TitlesByName = {};
+	tmp.URLs = {};
 	
-		// Process each record
-		rows.forEach((row) => {
-			if (row.bTitle == "Bookmarks Toolbar") {
-				row.bTitle = "BAR";
+	// Find sqlite path
+	sqlitepath = bmFirefoxPath[0];
+	var files = fs.readdirSync();
+	if (files.length == 1) {
+		sqlitepath += "\\" + files[0] + bmFirefoxPath[2];
+		console.log("Path: sqlitepath");
+	} else {
+		throw new Error("Multiple profiles for Firefox found");
+	}
+	/*
+	fs.readdirSync(bmFirefoxPath[0]).forEach(function(file) {
+
+	});
+	
+	
+	// Execute sqlite3 to get data
+	
+	// Process results
+	var lineReader = require('readline').createInterface({
+	  input: require('fs').createReadStream('./bmFF_LINE.txt')
+	});
+
+	lineReader.on('line', function (line) {
+		if (line == "") {
+			if (record.bTitle == "Bookmarks Toolbar") {
+				record.bTitle = "BAR";
 			}
-			if (tmp.TitlesByRow[row.id]) {
-				throw new Error("Row already defined");
+			if (tmp.TitlesByRow[record.id]) {
+				throw new Error("Record already defined");
 			} else {
-				tmp.TitlesByRow[row.id] = "";
+				tmp.TitlesByRow[record.id] = "";
 			}
-			if (row.url) tmp.URLs[row.id] = row.url;
-			if (row.bTitle) {
+			if (record.url) tmp.URLs[record.id] = record.url;
+			if (record.bTitle) {
 				var title = "";
-				if (row.parent) {
-					title = tmp.TitlesByRow[row.parent];
+				if (record.parent) {
+					title = tmp.TitlesByRow[record.parent];
 				}
-				title += "[" + row.bTitle + "]";
+				title += "[" + record.bTitle + "]";
 				if (tmp.TitlesByName[title]) {
-					throw new Error("Duplicate row: [" + row.bTitle + "]");
+					throw new Error("Duplicate record: [" + record.bTitle + "]");
 				}
-				tmp.TitlesByRow[row.id] = title;
-				tmp.TitlesByName[title] = row.id;
+				tmp.TitlesByRow[record.id] = title;
+				tmp.TitlesByName[title] = record.id;
 			}
-		});
+			
+			record = {};
+		} else {
+			var parts = line.split('=');
+			record[parts[0].trim()] = parts[1].trim();
+		}
+	});
 	
+	lineReader.on('close', function () {
 		// Merge the data
 		bm.FF = {};
 		for (var path in tmp.TitlesByName) {
@@ -77,22 +103,25 @@ function parseFirefoxBookmarks() {
 				var rowId = tmp.TitlesByName[path];
 				var url = tmp.URLs[rowId];
 				if (url) {
-					bm.FF[path] = url;				
+					bm.FF[path] = url;
 				}
 			}
 		}
-		
-		console.log(bm);
-	});
 
-	// close the database connection
-	db.close();
+		console.log(bm);
+		console.log("X");
+	});
+	*/
+	
 }
 
 
 
 // This method already exist in the merged code.
-function loadJsonFile(path) {
+function loadFileJson(path) {
+	return JSON.parse(loadFile(path));
+}
+function loadFile(path) {
 	var stats;
 	var hasErrors = false;
 	try {
@@ -111,56 +140,7 @@ function loadJsonFile(path) {
 		}
 	}
 
-	return JSON.parse(fs.readFileSync(path, 'utf8'));
+	return fs.readFileSync(path, 'utf8');
 }
-parseChromeBookmarks(loadJsonFile("./bmChrome.json"));
+parseChromeBookmarks(loadFileJson(bmChromePath));
 parseFirefoxBookmarks();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
