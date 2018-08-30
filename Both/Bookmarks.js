@@ -5,7 +5,6 @@
 const fs = require('fs');
 const { exec, execSync, spawn, spawnSync } = require('child_process');
 
-
 // Paths
 const bmChromePath = "C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks";
 const bmFirefoxPath = ["C:\\Users\\Admin\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\","*.default","places.sqlite"];
@@ -62,71 +61,60 @@ function parseFirefoxBookmarks() {
 	cmd += '> ./bmFF_LINE.txt';
 	
 	var process = exec(cmd, function (error, stdout, stderr) {
-		var output = {
-			cmd: cmd,
-			error: error
-		};
-		output.stdout = stdout ? stdout.trim() : "";
-		output.stderr = stderr ? stderr.trim() : "";
-		console.log(output);
-	});
+		if (error) throw new error;
 	
-	/*
-	
-	// Process results
-	var lineReader = require('readline').createInterface({
-	  input: require('fs').createReadStream('./bmFF_LINE.txt')
-	});
+		// Process results
+		var lineReader = require('readline').createInterface({
+		  input: require('fs').createReadStream('./bmFF_LINE.txt')
+		});
 
-	lineReader.on('line', function (line) {
-		if (line == "") {
-			if (record.bTitle == "Bookmarks Toolbar") {
-				record.bTitle = "BAR";
-			}
-			if (tmp.TitlesByRow[record.id]) {
-				throw new Error("Record already defined");
-			} else {
-				tmp.TitlesByRow[record.id] = "";
-			}
-			if (record.url) tmp.URLs[record.id] = record.url;
-			if (record.bTitle) {
-				var title = "";
-				if (record.parent) {
-					title = tmp.TitlesByRow[record.parent];
+		lineReader.on('line', function (line) {
+			if (line == "") {
+				if (record.bTitle == "Bookmarks Toolbar") {
+					record.bTitle = "BAR";
 				}
-				title += "[" + record.bTitle + "]";
-				if (tmp.TitlesByName[title]) {
-					throw new Error("Duplicate record: [" + record.bTitle + "]");
+				if (tmp.TitlesByRow[record.id]) {
+					throw new Error("Record already defined");
+				} else {
+					tmp.TitlesByRow[record.id] = "";
 				}
-				tmp.TitlesByRow[record.id] = title;
-				tmp.TitlesByName[title] = record.id;
-			}
+				if (record.url) tmp.URLs[record.id] = record.url;
+				if (record.bTitle) {
+					var title = "";
+					if (record.parent) {
+						title = tmp.TitlesByRow[record.parent];
+					}
+					title += "[" + record.bTitle + "]";
+					if (tmp.TitlesByName[title]) {
+						throw new Error("Duplicate record: [" + record.bTitle + "]");
+					}
+					tmp.TitlesByRow[record.id] = title;
+					tmp.TitlesByName[title] = record.id;
+				}
 			
-			record = {};
-		} else {
-			var parts = line.split('=');
-			record[parts[0].trim()] = parts[1].trim();
-		}
-	});
+				record = {};
+			} else {
+				var parts = line.split('=');
+				record[parts[0].trim()] = parts[1].trim();
+			}
+		});
 	
-	lineReader.on('close', function () {
-		// Merge the data
-		bm.FF = {};
-		for (var path in tmp.TitlesByName) {
-			if (tmp.TitlesByName.hasOwnProperty(path)) {
-				var rowId = tmp.TitlesByName[path];
-				var url = tmp.URLs[rowId];
-				if (url) {
-					bm.FF[path] = url;
+		lineReader.on('close', function () {
+			// Merge the data
+			bm.FF = {};
+			for (var path in tmp.TitlesByName) {
+				if (tmp.TitlesByName.hasOwnProperty(path)) {
+					var rowId = tmp.TitlesByName[path];
+					var url = tmp.URLs[rowId];
+					if (url) {
+						bm.FF[path] = url;
+					}
 				}
 			}
-		}
 
-		console.log(bm);
-		console.log("X");
+			console.log(bm);
+		});
 	});
-	*/
-	
 }
 
 
