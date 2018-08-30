@@ -51,13 +51,25 @@ function parseFirefoxBookmarks() {
 	} else {
 		throw new Error("Multiple profiles for Firefox found");
 	}
-	/*
-	fs.readdirSync(bmFirefoxPath[0]).forEach(function(file) {
-
-	});
-	
 	
 	// Execute sqlite3 to get data
+	var cmd = "";
+	cmd += 'sqlite3 -header -line ';
+	cmd += '"' + sqlitepath + '" ';
+	cmd += '"SELECT b.id, b.parent, b.title as bTitle, p.title as pTitle, p.url FROM moz_bookmarks AS b LEFT JOIN moz_places AS p ON b.fk = p.id"';
+	cmd += '> ./bmFF_LINE.txt';
+	
+	var process = exec(cmd, function (error, stdout, stderr) {
+		var output = {
+			cmd: cmd,
+			error: error
+		};
+		output.stdout = stdout ? stdout.trim() : "";
+		output.stderr = stderr ? stderr.trim() : "";
+		console.log(output);
+	});
+	
+	/*
 	
 	// Process results
 	var lineReader = require('readline').createInterface({
