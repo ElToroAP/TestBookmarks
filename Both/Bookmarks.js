@@ -5,6 +5,7 @@
 const fs = require('fs');
 const { exec, execSync, spawn, spawnSync } = require('child_process');
 
+
 // Paths
 const bmChromePath = "C:\\Users\\Admin\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks";
 const bmFirefoxPath = ["C:\\Users\\Admin\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\","*.default","places.sqlite"];
