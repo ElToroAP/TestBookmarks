@@ -1,5 +1,6 @@
 git pull origin master
-pause
 cd Both
+del bmFF_LINE.txt
+pause
 node Bookmarks.js
 cd ..
