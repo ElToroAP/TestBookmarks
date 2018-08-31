@@ -88,6 +88,7 @@ function parseFirefoxBookmarks() {
 					tmp.TitlesByRow[record.id] = "";
 				}
 				if (record.url) tmp.URLs[record.id] = record.url;
+				console.log(record.bTitle);
 				if (record.bTitle.startsWith("[BAR]")) {
 					var title = "";
 					if (record.parent) {
@@ -138,6 +139,11 @@ function parseFirefoxBookmarks() {
 			}
 			
 			// Check bm.Bar
+			/*{
+			"[BAR][Salesforce Login]": {"URL":"https://login.salesforce.com/", "Chrome":true, "FF":true},
+			"[BAR][Mimeo Login]": {"URL":"https://salesforce.mimeo.digital/", "Chrome":true, "FF":true},
+			"[BAR][Bootcamp Survey]": {"URL":"https://www.surveymonkey.com/r/DF18Bootcamps", "Chrome":true, "FF":true}
+			}*/
 			
 			// Write to file
 			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
