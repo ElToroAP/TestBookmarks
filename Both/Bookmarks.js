@@ -88,8 +88,7 @@ function parseFirefoxBookmarks() {
 					tmp.TitlesByRow[record.id] = "";
 				}
 				if (record.url) tmp.URLs[record.id] = record.url;
-				console.log(record.bTitle);
-				if (record.bTitle.startsWith("[BAR]")) {
+				if (record.bTitle) {
 					var title = "";
 					if (record.parent) {
 						title = tmp.TitlesByRow[record.parent];
@@ -112,6 +111,9 @@ function parseFirefoxBookmarks() {
 		lineReader.on('close', function () {
 			// Merge the data
 			for (var path in tmp.TitlesByName) {
+				console.log(path);
+				// if (record.bTitle.startsWith("[BAR]")) {
+
 				if (tmp.TitlesByName.hasOwnProperty(path)) {
 					var rowId = tmp.TitlesByName[path];
 					var url = tmp.URLs[rowId];
