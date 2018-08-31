@@ -140,7 +140,7 @@ function parseFirefoxBookmarks() {
 					nodeNew.hasFF = false;
 					nodeNew.hasChrome = false;
 					
-					if (nodeTemp.FF && nodeTemp.Chrome) && (nodeTemp.FF != nodeTemp.Chrome)) {
+					if (nodeTemp.FF && nodeTemp.Chrome && (nodeTemp.FF != nodeTemp.Chrome)) {
 						throw new Error("FF and Chrome urls are different");
 					}
 					if (nodeTemp.FF) {
