@@ -142,14 +142,16 @@ function parseFirefoxBookmarks() {
 					}
 					if (nodeTemp.FF) {
 						nodeNew.Url = nodeTemp.FF;
+						nodeNew.urlFF = nodeTemp.FF;
 					}
 					if (nodeTemp.Chrome) {
 						nodeNew.Url = nodeTemp.Chrome;
+						nodeNew.urlChrome = nodeTemp.Chrome;
 					}
 					
 					// Assume we are going to be checking both URLs
-					nodeNew.FF = true;
-					nodeNew.Chrome = true;
+					nodeNew.checkFF = true;
+					nodeNew.checkChrome = true;
 					
 					bmBarNew.push(nodeNew);
 				}
