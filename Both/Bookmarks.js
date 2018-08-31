@@ -29,8 +29,9 @@ function parseChromeBookmarksProcessChildren(node, path) {
 		}
 	}	
 }
-function parseChromeBookmarks(data) {
+function parseChromeBookmarks() {
 	bm.Chrome = {};
+	var data = loadFileJson(bmChromePath);
 	parseChromeBookmarksProcessChildren(
 		data["roots"]["bookmark_bar"], "");
 }
@@ -111,9 +112,11 @@ function parseFirefoxBookmarks() {
 					}
 				}
 			}
-
-			console.log(bm);
-			console.log("X");
+			
+			fs.writeFile("./bm.txt", bm, function(err) {
+				if(err) throw new Error(err);
+				console.log("The file [bm.txt] was saved!");
+			}); 
 		});
 	});
 }
@@ -145,5 +148,5 @@ function loadFile(path) {
 
 	return fs.readFileSync(path, 'utf8');
 }
-parseChromeBookmarks(loadFileJson(bmChromePath));
+parseChromeBookmarks();
 parseFirefoxBookmarks();
