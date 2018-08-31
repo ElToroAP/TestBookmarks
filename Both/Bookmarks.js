@@ -22,7 +22,8 @@ function parseChromeBookmarksProcessChildren(node, path) {
 	if (node.url) {
 		var barNode = bm.Bar[thisPath];
 		if (!barNode) barNode = {};
-		bm.Bar[thisPath].Chrome = node.url;
+		barNode.Chrome = node.url;
+		bm.Bar[thisPath] = barNode;
 
 		bm.Chrome[thisPath] = node.url;
 	}
@@ -114,9 +115,10 @@ function parseFirefoxBookmarks() {
 					var rowId = tmp.TitlesByName[path];
 					var url = tmp.URLs[rowId];
 					if (url) {
-						var barNode = bm.Bar[thisPath];
+						var barNode = bm.Bar[path];
 						if (!barNode) barNode = {};
-						bm.Bar[thisPath].FF = url;
+						barNode.FF = url;
+						bm.Bar[path] = barNode;
 						
 						bm.FF[path] = url;
 					}
