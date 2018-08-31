@@ -137,16 +137,19 @@ function parseFirefoxBookmarks() {
 					var nodeTemp = bmBarTemp[path];
 					
 					nodeNew.Title = path;
+					nodeNew.hasFF = false;
+					nodeNew.hasChrome = false;
+					
 					if (nodeTemp.FF && nodeTemp.Chrome && (nodeTemp.FF != nodeTemp.Chrome)) {
 						throw new Error("FF and Chrome urls are different");
 					}
 					if (nodeTemp.FF) {
 						nodeNew.Url = nodeTemp.FF;
-						nodeNew.urlFF = nodeTemp.FF;
+						nodeNew.hasFF = true;
 					}
 					if (nodeTemp.Chrome) {
 						nodeNew.Url = nodeTemp.Chrome;
-						nodeNew.urlChrome = nodeTemp.Chrome;
+						nodeNew.hasChrome = true;
 					}
 					
 					// Assume we are going to be checking both URLs
