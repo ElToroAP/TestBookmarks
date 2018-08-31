@@ -29,7 +29,7 @@ function findBookmarks_Chrome_Children(node, path) {
 	}
 	if (node.children) {
 		for (var i = 0; i < node.children.length; i++) {
-			parseChromeBookmarksProcessChildren(
+			findBookmarks_Chrome_Children(
 				node.children[i], thisPath);
 		}
 	}	
