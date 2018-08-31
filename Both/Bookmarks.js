@@ -123,31 +123,41 @@ function parseFirefoxBookmarks() {
 							
 							bm.FF[path] = url;
 						}
-						/*
-						if (path.startsWith('[BAR]')) {
-							if (bm.Chrome[path]) {
-								if (url1 == url2) {
-									bm.Bar[path] = url;
-								} else {
-									throw new Error("Chrome has a different url");
-								}
-							} else {
-								throw new Error("chrome does not have this entry");
-							}
-						}*/
 					}
 				}
 			}
 			
 			// Check bm.Bar
-			/*{
-			"[BAR][Salesforce Login]": {"URL":"https://login.salesforce.com/", "Chrome":true, "FF":true},
-			"[BAR][Mimeo Login]": {"URL":"https://salesforce.mimeo.digital/", "Chrome":true, "FF":true},
-			"[BAR][Bootcamp Survey]": {"URL":"https://www.surveymonkey.com/r/DF18Bootcamps", "Chrome":true, "FF":true}
-			}*/
+			var bmBarNew = [];
+			var bmBarTemp = bm.Bar;
+			
+			for (var path in bmBarTemp) {
+				if (bmBarTemp.hasOwnProperty(path)) {
+					var nodeNew = {};
+					var nodeTemp = bmBarTemp[path];
+					
+					nodeNew.Title = path;
+					if (nodeTemp.FF && nodeTemp.Chrome && (nodeTemp.FF != nodeTemp.Chrome)) {
+						throw new Error("FF and Chrome urls are different");
+					}
+					if (nodeTemp.FF) {
+						nodeNew.Url = nodeTemp.FF;
+					}
+					if (nodeTemp.Chrome) {
+						nodeNew.Url = nodeTemp.Chrome;
+					}
+					
+					// Assume we are going to be checking both URLs
+					nodeNew.FF = true;
+					nodeNew.Chrome = true;
+					
+					bmBarNew.push(nodeNew);
+				}
+			}
+			bm.Bar = bmBarNew;
 			
 			// Write to file
-			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
+			fs.writeFile("./bm.txt", JSON.stringify(bm.Bar, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [bm.txt] was saved!");
 			}); 
