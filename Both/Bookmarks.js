@@ -162,7 +162,7 @@ function parseFirefoxBookmarks() {
 			bm.Bar = bmBarNew;
 			
 			// Write to file
-			fs.writeFile("./bm.txt", JSON.stringify(bm.Bar, null, 4), function(err) {
+			fs.writeFile("./bmDump.txt", JSON.stringify(bm.Bar, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [bm.txt] was saved!");
 			}); 
