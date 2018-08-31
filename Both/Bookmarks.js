@@ -20,6 +20,10 @@ function parseChromeBookmarksProcessChildren(node, path) {
 		thisPath = path + "[" + node.name + "]";
 	}
 	if (node.url) {
+		var barNode = bm.Bar[thisPath];
+		if (!barNode) barNode = {};
+		bm.Bar[thisPath].Chrome = node.url;
+
 		bm.Chrome[thisPath] = node.url;
 	}
 	if (node.children) {
@@ -30,7 +34,10 @@ function parseChromeBookmarksProcessChildren(node, path) {
 	}	
 }
 function parseChromeBookmarks() {
+	bm.FF = {};
+	bm.Bar = {};
 	bm.Chrome = {};
+	
 	var data = loadFileJson(bmChromePath);
 	parseChromeBookmarksProcessChildren(
 		data["roots"]["bookmark_bar"], "");
@@ -102,17 +109,35 @@ function parseFirefoxBookmarks() {
 	
 		lineReader.on('close', function () {
 			// Merge the data
-			bm.FF = {};
 			for (var path in tmp.TitlesByName) {
 				if (tmp.TitlesByName.hasOwnProperty(path)) {
 					var rowId = tmp.TitlesByName[path];
 					var url = tmp.URLs[rowId];
 					if (url) {
+						var barNode = bm.Bar[thisPath];
+						if (!barNode) barNode = {};
+						bm.Bar[thisPath].FF = url;
+						
 						bm.FF[path] = url;
 					}
+					/*
+					if (path.startsWith('[BAR]')) {
+						if (bm.Chrome[path]) {
+							if (url1 == url2) {
+								bm.Bar[path] = url;
+							} else {
+								throw new Error("Chrome has a different url");
+							}
+						} else {
+							throw new Error("chrome does not have this entry");
+						}
+					}*/
 				}
 			}
 			
+			// Check bm.Bar
+			
+			// Write to file
 			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [bm.txt] was saved!");
