@@ -111,32 +111,31 @@ function parseFirefoxBookmarks() {
 		lineReader.on('close', function () {
 			// Merge the data
 			for (var path in tmp.TitlesByName) {
-				console.log(path);
-				// if (record.bTitle.startsWith("[BAR]")) {
-
-				if (tmp.TitlesByName.hasOwnProperty(path)) {
-					var rowId = tmp.TitlesByName[path];
-					var url = tmp.URLs[rowId];
-					if (url) {
-						var barNode = bm.Bar[path];
-						if (!barNode) barNode = {};
-						barNode.FF = url;
-						bm.Bar[path] = barNode;
-						
-						bm.FF[path] = url;
-					}
-					/*
-					if (path.startsWith('[BAR]')) {
-						if (bm.Chrome[path]) {
-							if (url1 == url2) {
-								bm.Bar[path] = url;
-							} else {
-								throw new Error("Chrome has a different url");
-							}
-						} else {
-							throw new Error("chrome does not have this entry");
+				if (path.startsWith("[BAR]")) {
+					if (tmp.TitlesByName.hasOwnProperty(path)) {
+						var rowId = tmp.TitlesByName[path];
+						var url = tmp.URLs[rowId];
+						if (url) {
+							var barNode = bm.Bar[path];
+							if (!barNode) barNode = {};
+							barNode.FF = url;
+							bm.Bar[path] = barNode;
+							
+							bm.FF[path] = url;
 						}
-					}*/
+						/*
+						if (path.startsWith('[BAR]')) {
+							if (bm.Chrome[path]) {
+								if (url1 == url2) {
+									bm.Bar[path] = url;
+								} else {
+									throw new Error("Chrome has a different url");
+								}
+							} else {
+								throw new Error("chrome does not have this entry");
+							}
+						}*/
+					}
 				}
 			}
 			
