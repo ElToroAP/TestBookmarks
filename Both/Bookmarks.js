@@ -11,7 +11,7 @@ const bmFirefoxPath = ["C:\\Users\\Admin\\AppData\\Roaming\\Mozilla\\Firefox\\Pr
 
 var bm = {};
 
-function parseChromeBookmarksProcessChildren(node, path) {
+function findBookmarks_Chrome_Children(node, path) {
 	var thisPath;
 	
 	if (node.name == "Bookmarks bar") {
@@ -34,16 +34,16 @@ function parseChromeBookmarksProcessChildren(node, path) {
 		}
 	}	
 }
-function parseChromeBookmarks() {
+function findBookmarks_Chrome() {
 	bm.FF = {};
 	bm.Bar = {};
 	bm.Chrome = {};
 	
 	var data = loadFileJson(bmChromePath);
-	parseChromeBookmarksProcessChildren(
+	findBookmarks_Chrome_Children(
 		data["roots"]["bookmark_bar"], "");
 }
-function parseFirefoxBookmarks() {
+function findBookmarks_Firefox() {
 	var tmp = {};
 	var record = {};
 	var sqlitepath = "";
@@ -170,8 +170,6 @@ function parseFirefoxBookmarks() {
 	});
 }
 
-
-
 // This method already exist in the merged code.
 function loadFileJson(path) {
 	return JSON.parse(loadFile(path));
@@ -197,5 +195,5 @@ function loadFile(path) {
 
 	return fs.readFileSync(path, 'utf8');
 }
-parseChromeBookmarks();
-parseFirefoxBookmarks();
+findBookmarks_Chrome();
+findBookmarks_Firefox();
