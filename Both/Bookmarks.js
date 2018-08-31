@@ -113,7 +113,7 @@ function parseFirefoxBookmarks() {
 				}
 			}
 			
-			fs.writeFile("./bm.txt", bm, function(err) {
+			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [bm.txt] was saved!");
 			}); 
