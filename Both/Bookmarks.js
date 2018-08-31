@@ -88,7 +88,7 @@ function parseFirefoxBookmarks() {
 					tmp.TitlesByRow[record.id] = "";
 				}
 				if (record.url) tmp.URLs[record.id] = record.url;
-				if (record.bTitle) {
+				if (record.bTitle.startsWith("[BAR]")) {
 					var title = "";
 					if (record.parent) {
 						title = tmp.TitlesByRow[record.parent];
