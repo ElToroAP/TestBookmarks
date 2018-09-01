@@ -1,4 +1,4 @@
-@ECHO ON
+# @ECHO ON
 cls
 git pull origin master
 cd Both
