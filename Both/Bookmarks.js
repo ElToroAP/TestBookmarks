@@ -167,6 +167,12 @@ function findBookmarks_Firefox() {
 				if(err) throw new Error(err);
 				console.log("The file [" + fileName + "] was saved!");
 			}); 
+
+			fileName = "./bm.txt";
+			fs.writeFile(fileName, JSON.stringify(bm, null, 4), function(err) {
+				if(err) throw new Error(err);
+				console.log("The file [" + fileName + "] was saved!");
+			}); 
 		});
 	});
 }
