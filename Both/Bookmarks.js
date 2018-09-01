@@ -186,10 +186,10 @@ function validateBookmarks() {
 				if (bmCheck.Url == bm.FF[bmCheck.Title]) {
 					// console.log("GOOD: FF");
 				} else {
-					console.log("BAD: FF: URLs do not match. Title *" + bmCheck.Title + "*,  Expected [" + bmCheck.Url + "], found [" + bm.FF[bmCheck.Title] + "]");
+					console.log("BAD: URLs do not match. Title *[FF]" + bmCheck.Title + "*,  Expected [" + bmCheck.Url + "], found [" + bm.FF[bmCheck.Title] + "]");
 				}
 			} else {
-				console.log("BAD: FF: No URL defined. Title *" + bmCheck.Title + "*");				
+				console.log("BAD: No URL defined. Title *[FF]" + bmCheck.Title + "*");				
 			}
 		}
 		
@@ -198,10 +198,10 @@ function validateBookmarks() {
 				if (bmCheck.Url == bm.Chrome[bmCheck.Title]) {
 					// console.log("GOOD: Chrome");
 				} else {
-					console.log("BAD: Chrome: URLs do not match. Title *" + bmCheck.Title + "*, Expected [" + bmCheck.Url + "], found [" + bm.Chrome[bmCheck.Title] + "]");
+					console.log("BAD: URLs do not match. Title *[Chrome]" + bmCheck.Title + "*, Expected [" + bmCheck.Url + "], found [" + bm.Chrome[bmCheck.Title] + "]");
 				}
 			} else {
-				console.log("BAD: Chrome: No URL defined. Title *" + bmCheck.Title + "*");				
+				console.log("BAD: No URL defined. Title *[Chrome]" + bmCheck.Title + "*");				
 			}
 		}
 	});
@@ -235,13 +235,17 @@ function loadFile(path) {
 
 console.log("START");
 var path = "./bm.txt";
-if (fs.statSync(path).size == 0) {
-	console.log("BM: Processed from browsers");
-	findBookmarks_Chrome();
-	findBookmarks_Firefox();
-} else {
+var fileExists = false;
+try {
+	fileExists = (fs.statSync(path).size > 0)
+} catch (ex) {}
+if (fileExists) {
 	console.log("BM: Read from file");
 	bm = loadFileJson(path);
 	validateBookmarks();	
+} else {
+	console.log("BM: Processed from browsers");
+	findBookmarks_Chrome();
+	findBookmarks_Firefox();
 }
 console.log("DONE!");
