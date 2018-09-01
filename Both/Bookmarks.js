@@ -201,7 +201,9 @@ function loadFile(path) {
 	return fs.readFileSync(path, 'utf8');
 }
 
+console.log("START");
 bm = loadFileJson("./bm.txt");
+console.log(bm);
 if (bm) {
 	console.log("BM: Read from file");
 } else {
