@@ -162,16 +162,14 @@ function findBookmarks_Firefox() {
 			bm.Bar = bmBarNew;
 			
 			// Write to file
-			var fileName = "./bmDump.txt";
-			fs.writeFile(fileName, JSON.stringify(bm.Bar, null, 4), function(err) {
+			fs.writeFile("./bmDump.txt", JSON.stringify(bm.Bar, null, 4), function(err) {
 				if(err) throw new Error(err);
-				console.log("The file [" + fileName + "] was saved!");
+				console.log("The file [" + "./bmDump.txt" + "] was saved!");
 			}); 
 
-			fileName = "./bm.txt";
-			fs.writeFile(fileName, JSON.stringify(bm, null, 4), function(err) {
+			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
 				if(err) throw new Error(err);
-				console.log("The file [" + fileName + "] was saved!");
+				console.log("The file [" + "./bm.txt" + "] was saved!");
 			}); 
 		});
 	});
