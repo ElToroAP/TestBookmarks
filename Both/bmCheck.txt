@@ -40,14 +40,6 @@
         "checkChrome": true
     },
     {
-        "Title": "[BAR][Mimeo Ebook]",
-        "hasFF": false,
-        "hasChrome": true,
-        "Url": "https://salesforce.mimeo.digital/",
-        "checkFF": true,
-        "checkChrome": true
-    },
-    {
         "Title": "[BAR][Tuesday][Continental 1/2/3][Trailmixes | Salesforce Trailhead]",
         "hasFF": true,
         "hasChrome": true,
@@ -210,7 +202,7 @@
     {
         "Title": "[BAR][Mimeo Login]",
         "hasFF": true,
-        "hasChrome": false,
+        "hasChrome": true,
         "Url": "https://salesforce.mimeo.digital/",
         "checkFF": true,
         "checkChrome": true

@@ -181,27 +181,20 @@ function validateBookmarks() {
 	var bmChecks = loadFileJson("./bmCheck.txt");
 	
 	bmChecks.forEach(function(bmCheck) {
+		var foundUrl;
+		var expectedUrl = bmCheck.Url;
+		
 		if (bmCheck.checkFF) {
-			if (bmCheck.hasFF) {
-				if (bmCheck.Url == bm.FF[bmCheck.Title]) {
-					// console.log("GOOD: FF");
-				} else {
-					console.log("BAD: URLs do not match. Title *[FF]" + bmCheck.Title + "*,  Expected [" + bmCheck.Url + "], found [" + bm.FF[bmCheck.Title] + "]");
-				}
-			} else {
-				console.log("BAD: No URL defined. Title *[FF]" + bmCheck.Title + "*");				
+			foundUrl = bm.FF[bmCheck.Title];
+			if (expectedUrl !== foundUrl) {
+				console.log("BAD: Bookmark does not match. Title *[FF]" + bmCheck.Title + "*,  Expected [" + expectedUrl + "], found [" + foundUrl + "]");
 			}
 		}
 		
 		if (bmCheck.checkChrome) {
-			if (bmCheck.hasChrome) {
-				if (bmCheck.Url == bm.Chrome[bmCheck.Title]) {
-					// console.log("GOOD: Chrome");
-				} else {
-					console.log("BAD: URLs do not match. Title *[Chrome]" + bmCheck.Title + "*, Expected [" + bmCheck.Url + "], found [" + bm.Chrome[bmCheck.Title] + "]");
-				}
-			} else {
-				console.log("BAD: No URL defined. Title *[Chrome]" + bmCheck.Title + "*");				
+			foundUrl = bm.Chrome[bmCheck.Title];
+			if (expectedUrl !== foundUrl) {
+				console.log("BAD: Bookmark does not match. Title *[Chrome]" + bmCheck.Title + "*,  Expected [" + expectedUrl + "], found [" + foundUrl + "]");
 			}
 		}
 	});
