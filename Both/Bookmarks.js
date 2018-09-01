@@ -186,7 +186,7 @@ function loadFile(path) {
 		stats = fs.statSync(path);
 		hasErrors = (stats.size == 0);
 	} catch (ex) {
-		log.debug("Error checking file: " + log.getPrettyJson(ex));
+		console.log("Error checking file: " + log.getPrettyJson(ex));
 		hasErrors = true;
 	}
 
@@ -194,7 +194,7 @@ function loadFile(path) {
 		try {
 			fs.writeFileSync(path, '{}');
 		} catch (ex) {
-			log.error("Error creating file: " + path);
+			console.log("Error creating file: " + path);
 		}
 	}
 
