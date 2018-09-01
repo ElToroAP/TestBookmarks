@@ -161,7 +161,7 @@ function findBookmarks_Firefox() {
 			}
 			bm.Bar = bmBarNew;
 			
-			// Write to file
+			// Write to files
 			fs.writeFile("./bmDump.txt", JSON.stringify(bm.Bar, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [" + "./bmDump.txt" + "] was saved!");
@@ -170,8 +170,40 @@ function findBookmarks_Firefox() {
 			fs.writeFile("./bm.txt", JSON.stringify(bm, null, 4), function(err) {
 				if(err) throw new Error(err);
 				console.log("The file [" + "./bm.txt" + "] was saved!");
-			}); 
+			});
+			
+			// Validate them
+			validateBookmarks();
 		});
+	});
+}
+function validateBookmarks() {
+	var bmChecks = loadFileJson("./bmCheck.txt");
+	
+	bmChecks.forEach(function(bmCheck) {
+		if (bmCheck.checkFF) {
+			if (bmCheck.hasFF) {
+				if (bmCheck.Url == bm.FF[bmCheck.Title]) {
+					// console.log("GOOD: FF");
+				} else {
+					console.log("BAD: FF: URLs do not match. Title *" + bmCheck.Title + "*,  Expected [" + bmCheck.Url + "], found [" + bm.FF[bmCheck.Title] + "]");
+				}
+			} else {
+				console.log("BAD: FF: No URL defined. Title *" + bmCheck.Title + "*");				
+			}
+		}
+		
+		if (bmCheck.checkChrome) {
+			if (bmCheck.hasChrome) {
+				if (bmCheck.Url == bm.Chrome[bmCheck.Title]) {
+					// console.log("GOOD: Chrome");
+				} else {
+					console.log("BAD: Chrome: URLs do not match. Title *" + bmCheck.Title + "*, Expected [" + bmCheck.Url + "], found [" + bm.Chrome[bmCheck.Title] + "]");
+				}
+			} else {
+				console.log("BAD: Chrome: No URL defined. Title *" + bmCheck.Title + "*");				
+			}
+		}
 	});
 }
 
@@ -202,13 +234,14 @@ function loadFile(path) {
 }
 
 console.log("START");
-bm = loadFileJson("./bm.txt");
-if (bm) {
-	console.log("BM: Read from file");
-} else {
+var path = "./bm.txt";
+if (fs.statSync(path).size == 0) {
+	console.log("BM: Processed from browsers");
 	findBookmarks_Chrome();
 	findBookmarks_Firefox();
-	console.log("BM: Processed from browsers");
+} else {
+	console.log("BM: Read from file");
+	bm = loadFileJson(path);
+	validateBookmarks();	
 }
-
 console.log("DONE!");
