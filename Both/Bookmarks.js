@@ -236,6 +236,7 @@ function loadFile(path) {
 console.log("START");
 var bmPretendPath = "./bmPretend.txt";
 var bmPretendExists = false;
+
 try {
 	bmPretendExists = (fs.statSync(bmPretendPath).size > 0)
 } catch (ex) {}
