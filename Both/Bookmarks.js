@@ -234,14 +234,14 @@ function loadFile(path) {
 }
 
 console.log("START");
-var path = "./bmPretend.txt";
-var fileExists = false;
+var bmPretendPath = "./bmPretend.txt";
+var bmPretendExists = false;
 try {
-	fileExists = (fs.statSync(path).size > 0)
+	bmPretendExists = (fs.statSync(bmPretendPath).size > 0)
 } catch (ex) {}
-if (fileExists) {
-	console.log("BM: Read from file");
-	bm = loadFileJson(path);
+if (bmPretendExists) {
+	console.log("BM: Read from file [" + bmPretendPath + "]");
+	bm = loadFileJson(bmPretendPath);
 	validateBookmarks();	
 } else {
 	console.log("BM: Processed from browsers");
