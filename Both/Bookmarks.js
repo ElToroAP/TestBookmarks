@@ -203,7 +203,6 @@ function loadFile(path) {
 
 console.log("START");
 bm = loadFileJson("./bm.txt");
-console.log(bm);
 if (bm) {
 	console.log("BM: Read from file");
 } else {
