@@ -200,5 +200,14 @@ function loadFile(path) {
 
 	return fs.readFileSync(path, 'utf8');
 }
-findBookmarks_Chrome();
-findBookmarks_Firefox();
+
+bm = loadFileJson("./bm.txt");
+if (bm) {
+	console.log("BM: Read from file");
+} else {
+	findBookmarks_Chrome();
+	findBookmarks_Firefox();
+	console.log("BM: Processed from browsers");
+}
+
+console.log("DONE!");
