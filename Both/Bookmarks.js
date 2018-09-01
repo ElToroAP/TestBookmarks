@@ -186,7 +186,7 @@ function loadFile(path) {
 		stats = fs.statSync(path);
 		hasErrors = (stats.size == 0);
 	} catch (ex) {
-		console.log("Error checking file: " + log.getPrettyJson(ex));
+		console.log("Error checking file: " + JSON.stringify(ex));
 		hasErrors = true;
 	}
 
